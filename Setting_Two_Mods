@@ -1,0 +1,27 @@
+#define SETTING_PIN D2
+
+bool currentMode;
+bool flag=true;
+
+void setup() {
+  pinMode(SETTING_PIN, INPUT_PULLUP); 
+  Serial.begin(9600); 
+  
+  BtnAndLedRGB_setup();
+  Serial.println("Game Client setup complete.");
+}
+
+void loop() {
+
+  currentMode = digitalRead(SETTING_PIN) == LOW; 
+  if(currentMode && flag){
+    WifiSetup();
+    flag=false;
+  }else if(currentMode){
+    TurnOffLED();
+    WifiServer_loop();
+  }else{
+    BtnAndLedRGB_loop();
+  }
+
+}
