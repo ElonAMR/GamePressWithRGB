@@ -1,4 +1,4 @@
-# Game_BtnPressFastWithRGB
+# Game : Who clicks the fastest?
 משחק הלחיצה המהירה ביותר ONLINE .
 הסבר משחק : 
 משתתפי התחרות מקבלים כל אחד ארדואינו D1 עם נורה RGB וכן כפתור ,
