@@ -21,14 +21,55 @@ int recordIndex = 0;
 
 
 
-void setup() {
-  // put your setup code here, to run once:
+void BtnAndLedRGB_setup() {
+  pinMode(PinBlue, OUTPUT);
+  pinMode(PinGreen, OUTPUT);
+  pinMode(PinRed, OUTPUT);
+  pinMode(Btn_R, INPUT_PULLUP);
+
+  Serial.begin(9600); 
+  TurnOffLED();
+  wifiClient_Setup();
 
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void BtnAndLedRGB_loop(){
+  int buttonState = digitalRead(Btn_R);
 
+  if (buttonState == LOW) {
+      if (!isButtonPressed) {
+          pressStartTime = millis(); 
+          isButtonPressed = true;
+      }
+  } else {
+      if (isButtonPressed) { 
+          LastPress = millis() - pressStartTime; 
+          isButtonPressed = false;
+
+          valFromServer = GetData();
+
+          Serial.print("Value from server: ");
+          Serial.println(valFromServer);
+
+          Serial.print("Press duration: ");
+          Serial.print(LastPress); 
+          Serial.println(" milliseconds");
+
+
+          bool isNewRecord = (LastPress < valFromServer); 
+          
+          recordPress(LastPress, isNewRecord);  
+
+          if (isNewRecord) { 
+              ColorTurkiz(); 
+              SetNewRecordToServer(LastPress); 
+          } else {
+              ColorOrange(); 
+          }
+
+          delay(100); 
+      }
+  }
 }
 
 
